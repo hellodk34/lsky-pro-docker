@@ -36,3 +36,61 @@ Lsky Pro 兰空图床 docker 镜像，适用于 Linux arm64 和 amd64 架构。�
 - [斐讯 N1 Debian9 安装 php8.1 和 composer](https://hellodk.cn/post/1032)
 - [构建 arm64 架构和 amd64 架构的兰空图床 docker 镜像](https://hellodk.cn/post/1034)
 - [Docker 构建多架构镜像实战 构建 amd64 和 arm64 架构的兰空图床镜像](https://hellodk.cn/post/1037)
+
+---
+
+有任何问题，请在此仓库创建 issue 交流，感谢使用！
+
+贴一个 nginx 反向代理的配置，支持 80 端口 301 跳转到 443 端口，并且使用 ssl 证书。建议将以下内容（请自行修改域名、证书等内容）保存至 `/etc/nginx/vhost/lsky-pro.conf` 或是 `/etc/nginx/sites-enabled/lsky-pro.conf`
+
+```
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name img.example.com;
+
+        location / {
+                return 301 https://img.example.com$request_uri;
+        }
+}
+
+server {
+    listen 443;
+    listen [::]:443 ssl http2;
+    server_name img.example.com;
+    server_tokens off;
+    root /path/to/mount/lsky-pro-data/public;
+
+    ssl_certificate    /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key    /etc/letsencrypt/live/example.com/privkey.pem;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256!aNULL:!MD5:!RC4:!DHE;
+    ssl_prefer_server_ciphers on;
+    ssl_session_timeout 10m;
+
+    index index.php;
+
+    charset utf-8;
+
+    error_log  /var/log/nginx/lskypro.error.log error;
+
+    location / {
+            proxy_pass http://127.0.0.1:7791;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header REMOTE-HOST $remote_addr;
+    }
+}
+```
+
+保存后执行
+
+```
+# nginx -t
+# nginx -s reload
+```
+
+如果没有任何报错，那么恭喜，你的图床 https://img.example.com 已经可用了。
