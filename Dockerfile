@@ -1,5 +1,7 @@
 FROM php:8.1-apache
 MAINTAINER whoerau <>
+
+RUN composer install
 RUN a2enmod rewrite
 
 # 安装相关拓展
