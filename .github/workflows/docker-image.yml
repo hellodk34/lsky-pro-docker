@@ -26,10 +26,10 @@ jobs:
         run: |
           VERSION=$(curl --silent "https://api.github.com/repos/lsky-org/lsky-pro/releases" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')
           curl -OL https://github.com/lsky-org/lsky-pro/archive/refs/tags/${ERSION}.zip
-          unzip ${VERSION}.zip
+          unzip lsky-pro-${VERSION}.zip
           mv ./lsky-pro-${VERSION}/* ./
           mv ./lsky-pro-${VERSION}/.env.example ./
-          rm -rf ${VERSION}.zip lsky-pro-${VERSION}
+          rm -rf lsky-pro-${VERSION}.zip lsky-pro-${VERSION}
       -
         name: Login to DockerHub
         uses: docker/login-action@v2
