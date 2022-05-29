@@ -30,7 +30,9 @@ jobs:
           curl -OL ${URL_INFO}
           unzip ${VERSION}.zip
           mv ./lsky-pro-${VERSION}/* ./lsky-pro-${VERSION}/.[^.]*  ./
+          cp .env.example .env
           rm -rf ${VERSION}.zip lsky-pro-${VERSION}
+          
           echo ::set-output name=latest_tag::${VERSION}
       -
         name: Login to DockerHub
