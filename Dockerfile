@@ -1,5 +1,5 @@
 FROM php:8.1-apache
-MAINTAINER hellodk <huadekai@live.com>
+MAINTAINER whoerau <>
 RUN a2enmod rewrite
 # 使用 ustc 镜像加速
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
