@@ -56,5 +56,5 @@ jobs:
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ steps.download.outputs.latest_tag }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/lsky-pro:${{ steps.download.outputs.latest_tag }}
           labels: ${{ steps.meta.outputs.labels }}
