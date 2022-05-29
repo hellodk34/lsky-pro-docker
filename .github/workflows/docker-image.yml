@@ -32,7 +32,7 @@ jobs:
           mv ./lsky-pro-${VERSION}/* ./
           mv ./lsky-pro-${VERSION}/.env.example ./
           rm -rf ${VERSION}.zip lsky-pro-${VERSION}
-          run: echo ::set-output name=latest_tag::${VERSION}
+          echo ::set-output name=latest_tag::${VERSION}
       -
         name: Login to DockerHub
         uses: docker/login-action@v2
