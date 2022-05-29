@@ -4,10 +4,10 @@ Lsky Pro 兰空图床 docker 镜像，适用于 Linux arm64 和 amd64 架构
 
 ```
 # 拉取镜像
-# docker pull dko0/lsky-pro:2.0.4
+# docker pull whoer/lsky-pro:latest
 
 # 启动容器
-# docker run -d --name=lsky-pro --restart=always -v /path/to/mount/lsky-pro-data:/var/www/html -p 7791:80 dko0/lsky-pro:2.0.4
+# docker run -d --name=lsky-pro --restart=always -v /path/to/mount/lsky-pro-data:/var/www/html -p 7791:80 whoer/lsky-pro:latest
 ```
 
 ---
