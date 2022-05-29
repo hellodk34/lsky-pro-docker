@@ -24,9 +24,10 @@ jobs:
         
       - name: Download and Unzip Upstream Source Code
         run: |
-          VERSION=$(wget --no-check-certificate -qO- https://api.github.com/repos/lsky-org/lsky-pro/tags | grep 'name' | cut -d\" -f4 | head -1)
+          VERSION=$(curl --silent "https://api.github.com/repos/lsky-org/lsky-pro/releases" | grep "tag_name" | head -n 1 | awk -F ":" '{print $2}' | sed 's/\"//g;s/,//g;s/ //g')
           ERSION=${VERSION:1}
-          wget -O-  https://github.com/lsky-org/lsky-pro/archive/refs/tags/${ERSION}.zip | unzip
+          curl -OL https://github.com/lsky-org/lsky-pro/archive/refs/tags/${ERSION}.zip
+          unzip ${ERSION}.zip
           mv ./lsky-pro-${ERSION}/* ./
           mv ./lsky-pro-${ERSION}/.env.example ./
           rm -rf ${ERSION}.zip lsky-pro-${ERSION}
