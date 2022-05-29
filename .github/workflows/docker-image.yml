@@ -34,6 +34,11 @@ jobs:
           rm -rf ${VERSION}.zip lsky-pro-${VERSION}
           
           echo ::set-output name=latest_tag::${VERSION}
+      - 
+        name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+           command: composer install
       -
         name: Login to DockerHub
         uses: docker/login-action@v2
