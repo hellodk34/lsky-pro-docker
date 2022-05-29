@@ -1,9 +1,7 @@
 FROM php:8.1-apache
 MAINTAINER whoerau <>
 RUN a2enmod rewrite
-# 使用 ustc 镜像加速
-RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
-    apt-get clean
+
 # 安装相关拓展
 RUN apt update && apt install imagemagick libmagickwand-dev -y \
     && pecl install imagick \
