@@ -56,7 +56,7 @@ server {
 }
 
 server {
-    listen 443;
+    listen 443 ssl http2;
     listen [::]:443 ssl http2;
     server_name img.example.com;
     server_tokens off;
