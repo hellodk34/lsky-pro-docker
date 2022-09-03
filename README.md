@@ -27,6 +27,8 @@ create database lskypro;
 
 浏览器访问 http://your_ip:7791 ，连接数据库时填写上面指定的 host（mysql 容器的名字或者 network-alias 的名字均可）、port（容器内部端口，并非映射的宿主机端口，一般都是 3306）、username（使用专门创建的 lskypro 用户，一般不用 root，最小权限原则）、password（为 lskypro 用户设置的密码）、database_name（数据库名称，lskypro） 再安装即可。
 
+喜欢 compose 的话可以自行编排一下，例子中的 mysql 容器我希望也能用在其他服务中就相对独立了出来。
+
 ------
 
 我看 GitHub 上有好几个 lsky-pro-docker repo 了（名字类似），虽说是开源了 Dockerfile，但是使用这些资源是不够的（也就是说，你通过这些开源的资源，docker build，虽然镜像能成功创建，但是容器启动后程序无法运行）。所以我新建了此 repo。详细的记录一下 Lsky Pro 镜像应该如何构建。而且简单学习了一下 docker 多架构构建，现分享出来。
