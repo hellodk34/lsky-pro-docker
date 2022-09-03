@@ -1,17 +1,33 @@
 # lsky-pro-docker
 Lsky Pro 兰空图床 docker 镜像，适用于 Linux arm64 和 amd64 架构。镜像地址: https://hub.docker.com/r/dko0/lsky-pro
 
-镜像使用
+**镜像使用**
+
+举一个连接 mysql8 的例子，你也可以使用其他数据库
 
 ```
-# 拉取镜像
-# docker pull dko0/lsky-pro:2.0.4
+docker network create lsky-pro-net
 
-# 启动容器
-# docker run -d --name=lsky-pro --restart=always -v /path/to/mount/lsky-pro-data:/var/www/html -p 7791:80 dko0/lsky-pro:2.0.4
+docker run -d -p 3306:3306 --name mysql8.0.29 --network lsky-pro-net --network-alias mysql --restart=always -e MYSQL_ROOT_PASSWORD=123456 mysql:8.0.29-debian
+
+docker run -d --name=lsky-pro --restart=always --network lsky-pro-net -v /path/to/lsky-pro-data:/var/www/html -p 7791:80 dko0/lsky-pro:2.0.4
+
+docker exec -it mysql8.0.29 bash
+
+mysql -uroot -p123456
+
+create user 'lskypro'@'%' identified by '123456';
+
+grant all privileges on *.* to 'lskypro'@'%' with grant option;
+
+flush privileges;
+
+create database lskypro;
 ```
 
----
+浏览器访问 http://your_ip:7791 ，连接数据库时填写上面指定的 host（mysql 容器的名字或者 network-alias 的名字均可）、port（容器内部端口，并非映射的宿主机端口，一般都是 3306）、username（使用专门创建的 lskypro 用户，一般不用 root，最小权限原则）、password（为 lskypro 用户设置的密码）、database_name（数据库名称，lskypro） 再安装即可。
+
+------
 
 我看 GitHub 上有好几个 lsky-pro-docker repo 了（名字类似），虽说是开源了 Dockerfile，但是使用这些资源是不够的（也就是说，你通过这些开源的资源，docker build，虽然镜像能成功创建，但是容器启动后程序无法运行）。所以我新建了此 repo。详细的记录一下 Lsky Pro 镜像应该如何构建。而且简单学习了一下 docker 多架构构建，现分享出来。
 
