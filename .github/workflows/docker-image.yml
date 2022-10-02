@@ -8,8 +8,8 @@ on:
   repository_dispatch:
     # this event is submited via github.com/bots-house/github-actions-upstream-watch
     types: upstream_commit
-#   schedule:
-#     - cron: '0 1 * * 0'
+  schedule:
+    - cron: '0 1 * * 0'
 
 jobs:
   docker:
