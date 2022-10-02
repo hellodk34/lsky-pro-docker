@@ -5,8 +5,11 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  schedule:
-    - cron: '0 1 * * 0'
+  repository_dispatch:
+    # this event is submited via github.com/bots-house/github-actions-upstream-watch
+    types: upstream_commit
+#   schedule:
+#     - cron: '0 1 * * 0'
 
 jobs:
   docker:
@@ -15,6 +18,13 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
+      - 
+        name: Checkout upstream repo 
+        uses: actions/checkout@v2
+        with:
+          repository: lsky-org/lsky-pro
+          path: upstream
+          submodules: recursive
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
